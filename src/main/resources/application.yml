@@ -1,0 +1,6 @@
+micronaut:
+    function:
+        name: rss-poller
+
+jackson:
+    bean-introspection-module: true
