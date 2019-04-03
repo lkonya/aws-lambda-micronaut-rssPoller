@@ -15,8 +15,8 @@ class RssPollerFunctionTest : Spek({
         val client = server.applicationContext.getBean(RssPollerClient::class.java)
 
         it("should return 'rss-poller'") {
-            val expected = RssPoller("testMessage")
-            assertEquals(client.apply(expected).blockingGet(), expected)
+            val expected = RssPoller("HelloFunction")
+            assertEquals(expected, client.apply(expected).blockingGet())
         }
 
         afterGroup {
