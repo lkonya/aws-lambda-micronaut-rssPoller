@@ -15,5 +15,5 @@ sqs:
     queue:
         url: https://sqs.eu-central-1.amazonaws.com/804193320004/rssQueue
     message:
-        batch-size: 10
+        batch-size: 40
         delay-between-batches: 15
