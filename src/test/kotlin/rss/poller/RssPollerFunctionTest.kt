@@ -6,6 +6,7 @@ import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
 import org.junit.jupiter.api.Assertions.assertEquals
+import rss.poller.model.RssFeed
 
 
 class RssPollerFunctionTest : Spek({
@@ -15,8 +16,7 @@ class RssPollerFunctionTest : Spek({
         val client = server.applicationContext.getBean(RssPollerClient::class.java)
 
         it("should return 'rss-poller'") {
-            val expected = RssPoller("HelloFunction")
-            assertEquals(expected, client.apply(expected).blockingGet())
+            assertEquals(emptyList<RssFeed>(), client.get().blockingGet())
         }
 
         afterGroup {
