@@ -36,17 +36,21 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
     compile "io.micronaut:micronaut-runtime"
     compile "io.micronaut:micronaut-function-aws"
+    compile "rome:rome:1.0"
+    compile "io.micronaut:micronaut-http-client"
+    compile "software.amazon.awssdk:sqs:2.5.24"
+
     kapt "io.micronaut:micronaut-inject-java"
     kapt "io.micronaut:micronaut-validation"
     kaptTest "io.micronaut:micronaut-inject-java"
+
     runtime "ch.qos.logback:logback-classic:1.2.3"
     runtime "com.amazonaws:aws-lambda-java-log4j2:1.0.0"
     runtime "org.apache.logging.log4j:log4j-slf4j-impl:2.9.1"
-    runtime "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8"
+    
     testCompile "org.junit.jupiter:junit-jupiter-api"
     testCompile "org.jetbrains.spek:spek-api:1.1.5"
     testCompile "io.micronaut:micronaut-function-client"
-    testCompile "io.micronaut:micronaut-http-client"
     testRuntime "org.junit.jupiter:junit-jupiter-engine"
     testRuntime "org.jetbrains.spek:spek-junit-platform-engine:1.1.5"
     testRuntime "io.micronaut:micronaut-http-server-netty"
@@ -54,15 +58,13 @@ dependencies {
 }
 
 shadowJar {
+    transform(Log4j2PluginsCacheFileTransformer)
     mergeServiceFiles()
 }
 
 run.classpath += configurations.developmentOnly
 test.classpath += configurations.developmentOnly
 run.jvmArgs('-noverify', '-XX:TieredStopAtLevel=1', '-Dcom.sun.management.jmxremote')
-shadowJar {
-    transform(Log4j2PluginsCacheFileTransformer)
-}
 
 test {
     useJUnitPlatform()

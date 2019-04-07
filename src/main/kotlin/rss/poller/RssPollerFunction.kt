@@ -2,21 +2,19 @@ package rss.poller
 
 import io.micronaut.function.FunctionBean
 import io.micronaut.function.executor.FunctionInitializer
-import java.util.function.Function
+import rss.poller.model.RssFeeds
+import rss.poller.service.RssPollerService
+import java.util.function.Supplier
+import javax.inject.Inject
 
 @FunctionBean("rss-poller")
-class RssPollerFunction : FunctionInitializer(), Function<RssPoller, RssPoller> {
+class RssPollerFunction : FunctionInitializer(), Supplier<RssFeeds> {
 
-    override fun apply(msg: RssPoller): RssPoller {
-        return msg
+    @Inject
+    private lateinit var rssPollerService: RssPollerService
+
+    override fun get(): RssFeeds {
+        val feeds = rssPollerService.sendRssItemsIntoSqS()
+        return RssFeeds(feeds)
     }
-}
-
-/**
- * This main method allows running the function as a CLI application using: echo '{}' | java -jar function.jar
- * where the argument to echo is the JSON to be parsed.
- */
-fun main(args: Array<String>) {
-    val function = RssPollerFunction()
-    function.run(args) { context -> function.apply(context.get(RssPoller::class.java)) }
 }
